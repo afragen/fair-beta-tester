@@ -1,0 +1,36 @@
+{
+    "name": "fairpm/fair-beta-tester",
+    "description": "Enable beta testing for FAIR Connect plugin.",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "FAIR Contributors",
+			"email": "operations@fair.pm",
+			"homepage": "https://fair.pm"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "afragen/git-updater-lite": "^2"
+    },
+    "require-dev": {
+        "yoast/phpunit-polyfills": "*",
+        "nimut/phpunit-merger": "*",
+        "humanmade/coding-standards": "^1.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+		"lint": "@php ./vendor/bin/phpcs .",
+		"format": "@php ./vendor/bin/phpcbf ."
+    },
+	"support": {
+		"issues": "https://github.com/fairpm/fair-beta-tester/issues",
+		"source": "https://github.com/fairpm/fair-beta-tester",
+		"docs": "https://github.com/fairpm/fair-beta-tester/blob/main/README.md"
+	}
+}
