@@ -1,10 +1,11 @@
 # FAIR Connect Beta Tester
 
-* Contributors: FAIR Contributors
-* License: MIT
-* Tags: beta tester
-* Requires at least: 5.4
-* Requires PHP: 7.4
+Contributors: FAIR Contributors
+License: MIT
+Tags: beta tester
+Requires at least: 5.4
+Requires PHP: 7.4
+Tested up to: 6.9
 
 FAIR is a system for using **F**ederated **a**nd **I**ndependent **R**epositories in WordPress. This plugin allows for updates from the development channel.
 
