@@ -14,6 +14,7 @@
  * Primary Branch: main
  * Release Asset: true
  * Plugin ID:
+ * Requires Plugins: fair-plugin
  */
 
 namespace FAIR\Beta_Tester;
