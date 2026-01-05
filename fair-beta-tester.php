@@ -15,8 +15,6 @@
  * Release Asset: true
  * Plugin ID:
  * Requires Plugins: fair-plugin
- *
- * @phpcs:disable HM.Files.NamespaceDirectoryName.NoIncDirectory
  */
 
 namespace FAIR\Beta_Tester;
