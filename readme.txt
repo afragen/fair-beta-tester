@@ -5,7 +5,7 @@ License: MIT
 Tags: beta tester
 Requires at least: 5.4
 Requires PHP: 7.4
-Tested up to: 6.9
+Tested up to: 7.0
 
 FAIR is a system for using **F**ederated **a**nd **I**ndependent **R**epositories in WordPress. This plugin allows for updates from the development channel.
 

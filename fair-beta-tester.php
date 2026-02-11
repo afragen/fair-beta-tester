@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FAIR Connect Beta Tester
  * Description: Enable beta testing for FAIR Connect plugin.
- * Version: 0.5.0
+ * Version: 0.6.0
  * Author: FAIR Contributors
  * Author URI: https://fair.pm
  * Security: security@fair.pm
