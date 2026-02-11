@@ -124,13 +124,14 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 			);
 			$response = get_site_transient( "git-updater-lite_{$this->file}" );
 			if ( ! $response ) {
-				/* Apply filter to API URL.
+				/*
+				 * Apply filter to API URL.
 				 * Example, add `development` query arg to URL to get pre-release versions.
 				 *
 				 * @param string $url The API URL.
 				 * @param string $slug The plugin/theme slug
 				 */
-				$url = apply_filters( 'git_updater_lite_api_url', $url, $this->slug );
+				$url      = apply_filters( 'git_updater_lite_api_url', $url, $this->slug );
 				$response = wp_remote_get( $url );
 				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) === 404 ) {
 					return $response;
@@ -161,10 +162,11 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 		 * @return void
 		 */
 		public function load_hooks() {
-			$type = $this->api_data->type;
-			add_filter( 'upgrader_source_selection', array( $this, 'upgrader_source_selection' ), 10, 4 );
-			add_filter( "{$type}s_api", array( $this, 'repo_api_details' ), 99, 3 );
-			add_filter( "site_transient_update_{$type}s", array( $this, 'update_site_transient' ), 20, 1 );
+			add_filter( 'upgrader_source_selection', array( __CLASS__, 'upgrader_source_selection' ), 10, 4 );
+			add_filter( 'plugins_api', array( $this, 'plugin_api_details' ), 99, 3 );
+			add_filter( 'themes_api', array( $this, 'theme_api_details' ), 99, 3 );
+			add_filter( 'site_transient_update_plugins', array( $this, 'update_site_transient' ), 20, 1 );
+			add_filter( 'site_transient_update_themes', array( $this, 'update_site_transient' ), 20, 1 );
 			if ( ! is_multisite() ) {
 				add_filter( 'wp_prepare_themes_for_js', array( $this, 'customize_theme_update_html' ) );
 			}
@@ -191,7 +193,7 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 		 *
 		 * @return string|WP_Error
 		 */
-		public function upgrader_source_selection( $source, string $remote_source, WP_Upgrader $upgrader, $hook_extra = null ) {
+		public static function upgrader_source_selection( $source, string $remote_source, WP_Upgrader $upgrader, $hook_extra = null ) {
 			global $wp_filesystem;
 
 			// Exit early for errors.
@@ -246,8 +248,30 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 		 *
 		 * @return stdClass|bool
 		 */
-		public function repo_api_details( $result, string $action, stdClass $response ) {
-			if ( "{$this->api_data->type}_information" !== $action ) {
+		public function plugin_api_details( $result, string $action, stdClass $response ) {
+			if ( 'plugin_information' !== $action ) {
+				return $result;
+			}
+
+			// Exit if not our repo.
+			if ( $response->slug !== $this->api_data->slug ) {
+				return $result;
+			}
+
+			return $this->api_data;
+		}
+
+		/**
+		 * Put changelog in themess_api, return WP.org data as appropriate
+		 *
+		 * @param bool     $result   Default false.
+		 * @param string   $action   The type of information being requested from the Theme Installation API.
+		 * @param stdClass $response Repo API arguments.
+		 *
+		 * @return stdClass|bool
+		 */
+		public function theme_api_details( $result, string $action, stdClass $response ) {
+			if ( 'theme_information' !== $action ) {
 				return $result;
 			}
 
@@ -339,9 +363,9 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 			}
 
 			if ( ! empty( $prepared_themes[ $theme->slug ]['hasUpdate'] ) ) {
-				$prepared_themes[ $theme->slug ]['update'] = $this->append_theme_actions_content( $theme );
+				$prepared_themes[ $theme->slug ]['update'] = self::append_theme_actions_content( $theme );
 			} else {
-				$prepared_themes[ $theme->slug ]['description'] .= $this->append_theme_actions_content( $theme );
+				$prepared_themes[ $theme->slug ]['description'] .= self::append_theme_actions_content( $theme );
 			}
 
 			return $prepared_themes;
@@ -359,7 +383,7 @@ if ( ! class_exists( 'Fragen\\Git_Updater\\Lite' ) ) {
 		 *
 		 * @return string (content buffer)
 		 */
-		protected function append_theme_actions_content( $theme ) {
+		protected static function append_theme_actions_content( $theme ) {
 			$details_url       = esc_attr(
 				add_query_arg(
 					array(
