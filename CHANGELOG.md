@@ -1,5 +1,8 @@
 [unreleased]
 
+#### 0.8.3 / 2026-03-03
+* composer update GUL to 2.8.4
+
 #### 0.8.2 / 2026-02-12
 * composer update to GUL 2.8.3
 
