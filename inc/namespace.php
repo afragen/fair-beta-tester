@@ -25,7 +25,7 @@ function bootstrap(): void {
  */
 function run(): void {
 	( new Git_Updater\Lite( PLUGIN_FILE ) )->run();
-	( new Git_Updater\Lite( FAIR_BETA_TESTER_PLUGIN_FILE) )->run();
+	( new Git_Updater\Lite( FAIR_BETA_TESTER_PLUGIN_FILE ) )->run();
 }
 
 /**
