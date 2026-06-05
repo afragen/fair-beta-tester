@@ -1,5 +1,8 @@
 [unreleased]
 
+#### 0.9.0 / 2026-06-05
+* update `afragen/git-updater-lite:^3`
+
 #### 0.8.4 / 2026-03-05
 * add `Update URI` for updating this package, can change later to `Plugin ID` or different location
 * add standard FAIR assets
